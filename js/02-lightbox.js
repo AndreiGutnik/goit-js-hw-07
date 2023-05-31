@@ -8,6 +8,13 @@ galleryContainer.insertAdjacentHTML("beforeend", gallaryItemMarkup);
 
 galleryContainer.addEventListener("click", ongalleryContainerClick);
 
+// Create the gallary
+  const gallery = new SimpleLightbox(".gallery__item a", {
+    captionsData: "alt",
+    captionPosition: "bottom",
+    captionDelay: 250,
+	}); 
+
 function createGallaryItemMarkup(galleryItems) {
   return galleryItems
     .map(({ preview, original, description }) => {
@@ -23,27 +30,14 @@ function createGallaryItemMarkup(galleryItems) {
 }
 
 function ongalleryContainerClick(evt) {
-  //console.log(evt.target)
 	// Canceling standard actions
   evt.preventDefault();
 
   if (evt.target.nodeName !== "IMG") {
     return;
-  }
-
-  // Open the gallary
-  const gallery = new SimpleLightbox(".gallery__item a", {
-    captionsData: "alt",
-    captionPosition: "bottom",
-    captionDelay: 250,
-	}); 
+  }  
 	
-  // Close the gallary
-  galleryContainer.addEventListener("keydown", (evt) => {
-    if (evt.code === "Escape") {
-			gallery.refresh();
-    }
-	});
+  // Close and refresh the gallary
 	gallery.on("closed.simplelightbox", () => {
     gallery.refresh();
   });  
