@@ -39,11 +39,14 @@ function ongalleryContainerClick(evt) {
   const instance = basicLightbox.create(`
     <img src="${originalImage}" width="800" height="600">
 `);
-  instance.show();
-  // Close the gallary
-  galleryContainer.addEventListener("keydown", (evt) => {
-    if (evt.code === "Escape") {
-      instance.close();
-    }
-  });
+	instance.show(() => {
+		// Close the gallary
+		galleryContainer.addEventListener("keydown", (evt) => {
+			if (evt.code === "Escape") {
+				instance.close(() => {
+					galleryContainer.removeEventListener("keydown", () => {})
+				});
+			}
+		});
+	});
 }
